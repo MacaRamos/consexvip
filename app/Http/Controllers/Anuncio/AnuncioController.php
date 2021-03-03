@@ -65,7 +65,7 @@ class AnuncioController extends Controller
         if (count((array) $request->fotos) > 0) {
             foreach ((array) $request->fotos as $key => $f) {
                 if (isset($f)) {
-                    $size = Storage::size(asset('storage/' . $f));
+                    $size = Storage::size('public/' . $f);
                     $foto = new Foto();
                     $foto->anuncio_id = $anuncio->id;
                     $foto->foto = $f;
