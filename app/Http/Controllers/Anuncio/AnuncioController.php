@@ -117,7 +117,7 @@ class AnuncioController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('anuncios.show');
     }
 
     /**

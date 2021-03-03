@@ -21,7 +21,7 @@ Escorts en Concepción
 <div class="row">
     @foreach ($anuncios as $anuncio)
     <div class="col-md-2 mb-3">
-        <a href="" class="home-anuncio">
+        <a href="{{route('anuncios.show', ['anuncio' => $anuncio->id])}}" class="home-anuncio">
             <img src="{{isset($anuncio->fotos) && count($anuncio->fotos) > 0 ? asset('storage/'.$anuncio->fotos[0]->foto) : asset('assets/img/sin-foto-mujer.jpg')}}"
                 class="img-fluid" alt="Responsive image">
             <div class="font-weight-bold" style="font-size: 15px; color: #cb4c5b;">{{$anuncio->nombre}}</div>
