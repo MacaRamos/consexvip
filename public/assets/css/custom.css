@@ -3,7 +3,7 @@ body {
 }
 .home-anuncio:hover{
     cursor: pointer;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 label:not(.form-check-label):not(.custom-file-label) {
     font-weight: 400; 
