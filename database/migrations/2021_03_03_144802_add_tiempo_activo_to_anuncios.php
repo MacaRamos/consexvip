@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSizeToAnunciosFotos extends Migration
+class AddTiempoActivoToAnuncios extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,8 @@ class AddSizeToAnunciosFotos extends Migration
      */
     public function up()
     {
-        Schema::table('anuncios_fotos', function (Blueprint $table) {
-            $table->integer('size')->after('foto');
+        Schema::table('anuncios', function (Blueprint $table) {
+            $table->integer('tiempo_activo')->after('fecha_activo');
         });
     }
 
@@ -25,8 +25,8 @@ class AddSizeToAnunciosFotos extends Migration
      */
     public function down()
     {
-        Schema::table('anuncios_fotos', function (Blueprint $table) {
-            $table->dropColumn('size');
+        Schema::table('anuncios', function (Blueprint $table) {
+            $table->dropColumn('tiempo_activo');
         });
     }
 }

@@ -13,6 +13,7 @@ Editar Anuncio
 <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet" />
   <!-- dropzonejs -->
 <link rel="stylesheet" href="{{asset("assets/$theme/plugins/dropzone/min/dropzone.min.css")}}">
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 @endsection
 
 @section("scripts")
@@ -22,6 +23,7 @@ Editar Anuncio
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <!-- dropzonejs -->
 <script src="{{asset("assets/$theme/plugins/dropzone/min/dropzone.min.js")}}"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 @include('includes.mensaje')
 @include('includes.error-form')
 <script>
@@ -162,8 +164,8 @@ Editar Anuncio
     <div class="card-header with-border border-consex">
         <h6 class="card-title text-white">Información anuncio</h6>
         <div class="card-tools pull-right">
-            <a href="{{route('anuncios.index')}}" class="btn btn-block text-white bg-vina btn-sm ">
-                <i class="fas fa-reply"></i> Volver a anuncios
+            <a href="{{route('anuncios.index')}}" class="btn btn-block text-white bg-consex btn-sm ">
+                <i class="fas fa-reply"></i> anuncios
             </a>
         </div>
     </div>

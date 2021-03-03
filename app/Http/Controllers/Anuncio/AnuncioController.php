@@ -7,6 +7,7 @@ use App\Http\Requests\ValidacionAnuncio;
 use App\Models\Anuncio\Anuncio;
 use App\Models\Anuncio\Etiqueta;
 use App\Models\Anuncio\Foto;
+use App\Models\Anuncio\Servicio;
 use App\Models\Anuncio\Tipo;
 use App\Models\Parametro;
 use Illuminate\Http\Request;
@@ -45,7 +46,7 @@ class AnuncioController extends Controller
      */
     public function store(ValidacionAnuncio $request)
     {
-        // dd($request->all());
+        $activo = $request->activo == 'on' ? 1 : 0;
         $anuncio = new Anuncio();
         $anuncio->usuario_id = Auth::user()->id;
         $anuncio->tipo_id = $request->tipo_id;
@@ -58,8 +59,9 @@ class AnuncioController extends Controller
         $anuncio->precio_hora = (int)str_replace($request->precio_hora, '$ ', '');
         $anuncio->horario_inicio = $request->horario_inicio;
         $anuncio->horario_fin = $request->horario_fin;
-        $anuncio->activo = true;
-        $anuncio->fecha_activo = date('Y-m-d H:i:s');
+        $anuncio->activo = $activo;
+        $anuncio->fecha_activo = $activo ? date('Y-m-d H:i:s') : null;
+        $anuncio->tiempo_activo = 0;
         $anuncio->save();
 
         if (count((array) $request->fotos) > 0) {
@@ -75,13 +77,26 @@ class AnuncioController extends Controller
             }
         }
 
+        $etiquetas = explode(',', (string)$request->etiquetas);
         if (count((array) $request->etiquetas) > 0) {
-            foreach ((array) $request->etiquetas as $key => $tag) {
+            foreach ((array) $etiquetas as $tag) {
                 if (isset($tag)) {
                     $etiqueta = new Etiqueta();
                     $etiqueta->anuncio_id = $anuncio->id;
                     $etiqueta->etiqueta = $tag;
                     $etiqueta->save();
+                }
+            }
+        }
+
+        $servicios = explode(',', (string)$request->servicios);
+        if (count((array) $request->servicios) > 0) {
+            foreach ($servicios as $ser) {
+                if (isset($ser)) {
+                    $servicio = new Servicio();
+                    $servicio->anuncio_id = $anuncio->id;
+                    $servicio->servicio = $ser;
+                    $servicio->save();
                 }
             }
         }
@@ -114,7 +129,7 @@ class AnuncioController extends Controller
     public function edit($id)
     {
         $tipos = Tipo::get();
-        $anuncio = Anuncio::where('id', $id)->with('fotos')->first();
+        $anuncio = Anuncio::where('id', $id)->with('fotos', 'servicios', 'etiquetas')->first();
         return view('anuncios.editar', compact('anuncio', 'tipos'));
     }
 
@@ -127,6 +142,7 @@ class AnuncioController extends Controller
      */
     public function update(ValidacionAnuncio $request, $id)
     {
+        $activo = $request->activo == 'on' ? 1 : 0;
         $anuncio = Anuncio::find($id);
         $anuncio->tipo_id = $request->tipo_id;
         $anuncio->nombre = $request->nombre;
@@ -138,8 +154,12 @@ class AnuncioController extends Controller
         $anuncio->precio_hora = (int)str_replace($request->precio_hora, '$ ', '');
         $anuncio->horario_inicio = $request->horario_inicio;
         $anuncio->horario_fin = $request->horario_fin;
-        $anuncio->activo = true;
-        $anuncio->fecha_activo = date('Y-m-d H:i:s');
+        $anuncio->activo = $activo;
+        if(!$anuncio->activo && $activo){
+            $anuncio->fecha_activo = date('Y-m-d H:i:s');
+        }else if($anuncio->activo && !$activo){
+            $anuncio->fecha_activo = null;
+        }
         $anuncio->save();
 
         Foto::where('anuncio_id', $id)->delete();
@@ -165,6 +185,19 @@ class AnuncioController extends Controller
                     $etiqueta->anuncio_id = $anuncio->id;
                     $etiqueta->etiqueta = $tag;
                     $etiqueta->save();
+                }
+            }
+        }
+
+        Servicio::where('anuncio_id', $id)->delete();
+        $servicios = explode(',', (string)$request->servicios);
+        if (count((array) $request->servicios) > 0) {
+            foreach ($servicios as $ser) {
+                if (isset($ser)) {
+                    $servicio = new Servicio();
+                    $servicio->anuncio_id = $anuncio->id;
+                    $servicio->servicio = $ser;
+                    $servicio->save();
                 }
             }
         }

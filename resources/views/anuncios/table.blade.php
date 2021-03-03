@@ -1,5 +1,5 @@
-<div class="card-body table-responsive p-0">
-    <table class="table table-condensed" id="tabla-data">
+<div class="card-body table-responsive">
+    <table class="table table-hover table-dark bg-transparent py-5" id="tabla-data">
         <thead class="border-bottom-3 border-black">
             <tr>
                 <th style="white-space: pre !important;">ID</th>

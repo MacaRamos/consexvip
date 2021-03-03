@@ -7,7 +7,7 @@
           contenidos para Adultos. Los contenidos, imágenes, videos y similares están dirigidos sólo a mayores de 18
           años.
           Consexvip.cl no se responsabiliza de los contenidos publicados por terceros en el sitio.</p>
-        <a class="btn text-white py-3 px-5 bg-consex" href="https://www.consexvip.cl/publicar">Publica tu anuncio</a>
+        <a class="btn text-white py-3 px-5 btn-consex" href="https://www.consexvip.cl/publicar">Publica tu anuncio</a>
       </div>
       <div class="col-md-4 col-12 col-footer text-bold">
         <h3>Contacto</h3>

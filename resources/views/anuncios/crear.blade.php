@@ -151,7 +151,7 @@ Crear Anuncio
         <h6 class="card-title text-white">Información anuncio</h6>
         <div class="card-tools pull-right">
             <a href="{{route('anuncios.index')}}" class="btn btn-block text-white bg-consex btn-sm ">
-                <i class="fas fa-reply"></i> volver a anuncios
+                <i class="fas fa-reply"></i> anuncios
             </a>
         </div>
     </div>

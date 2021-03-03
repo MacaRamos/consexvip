@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddSizeToAnunciosFotos extends Migration
+class CreateAnunciosServiciosTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddSizeToAnunciosFotos extends Migration
      */
     public function up()
     {
-        Schema::table('anuncios_fotos', function (Blueprint $table) {
-            $table->integer('size')->after('foto');
+        Schema::create('anuncios_servicios', function (Blueprint $table) {
+            $table->id();
+            $table->foreignId('anuncio_id')->constrained('anuncios');
+            $table->string('servicio', 100);
+            $table->timestamps();
         });
     }
 
@@ -25,8 +28,6 @@ class AddSizeToAnunciosFotos extends Migration
      */
     public function down()
     {
-        Schema::table('anuncios_fotos', function (Blueprint $table) {
-            $table->dropColumn('size');
-        });
+        Schema::dropIfExists('anuncios_servicios');
     }
 }

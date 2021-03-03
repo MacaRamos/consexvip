@@ -22,7 +22,8 @@ class Anuncio extends Model
         'horario_inicio',
         'horario_fin',
         'activo',
-        'fecha_activo'
+        'fecha_activo',
+        'tiempo_activo'
     ];
 
     public function fotos(){
@@ -35,5 +36,9 @@ class Anuncio extends Model
 
     public function etiquetas(){
         return $this->hasMany(Etiqueta::class, 'anuncio_id', 'id');
+    }
+
+    public function servicios(){
+        return $this->hasMany(Servicio::class, 'anuncio_id', 'id');
     }
 }

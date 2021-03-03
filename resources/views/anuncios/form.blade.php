@@ -6,9 +6,16 @@
                 value="{{old('nombre', $anuncio->nombre ?? '')}}" maxlength="100" required>
         </div>
     </div>
+    <div class="col-md-8">
+        <div class="form-group float-right">
+            <input type="checkbox" name="activo" id="activo" data-onstyle="success" data-toggle="toggle"
+                data-on="Activo" data-off="Inactivo" checked>
+        </div>
+    </div>
+
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="font-weight-normal">Subtitulo</label>
             <input type="text" class="form-control" name="subtitulo" id="subtitulo"
@@ -26,7 +33,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="requerido font-weight-normal">Ubicación</label>
             <input type="text" class="form-control" name="ubicacion" id="ubicacion"
@@ -35,7 +42,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="requerido font-weight-normal">Teléfono</label>
             <input type="text" class="form-control" name="telefono" id="telefono"
@@ -44,7 +51,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="font-weight-normal">Whatsapp</label>
             <input type="text" class="form-control" name="whatsapp" id="whatsapp"
@@ -53,7 +60,7 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-3">
+    <div class="col-md-4">
         <div class="form-group">
             <label class="font-weight-normal">Precio hora</label>
             <input type="text" class="form-control" name="precio_hora" id="precio_hora"
@@ -95,13 +102,25 @@
 <div class="row">
     <div class="col-md-6">
         <div class="form-group">
-            <label class="font-weight-normal">Etiquetas</label>
-            <input type="text" class="form-control" name="etiquetas" id="etiquetas"
+            <label class="font-weight-normal">Servicios</label>
+            <input type="text" class="form-control" name="servicios" id="servicios"
                 title="Separe por comas ',' cada valor." data-toggle="tooltip" data-placement="top"
-                placeholder="Ingrese uno o mas valores">
+                placeholder="Ingrese uno o mas valores" value="{{old('servicios', isset($anuncio) && count($anuncio->servicios) ? implode(', ', array_column($anuncio->servicios->toArray(), 'servicio')) : '')}}">
         </div>
     </div>
 </div>
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label class="font-weight-normal">Etiquetas</label>
+            <input type="text" class="form-control" name="etiquetas" id="etiquetas"
+                title="Separe por comas ',' cada valor." data-toggle="tooltip" data-placement="top"
+                placeholder="Ingrese uno o mas valores" value="{{old('etiquetas', isset($anuncio) && count($anuncio->etiquetas) ? implode(', ', array_column($anuncio->etiquetas->toArray(), 'etiqueta')) : '')}}">
+        </div>
+    </div>
+</div>
+
+
 <div class="row mt-3">
     <div class="col-md-12">
         <div id="subirFotos" class="dropzone bg-transparent border-consex">
