@@ -17,6 +17,7 @@ class CreateAnunciosFotosTable extends Migration
             $table->id();
             $table->foreignId('anuncio_id')->constrained('anuncios');
             $table->string('foto', 1024);
+            $table->integer('size');
             $table->timestamps();
         });
     }

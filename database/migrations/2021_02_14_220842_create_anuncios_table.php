@@ -26,6 +26,11 @@ class CreateAnunciosTable extends Migration
             $table->integer('precio_hora')->nullable();
             $table->time('horario_inicio')->nullable();
             $table->time('horario_fin')->nullable();
+            $table->boolean('activo')->default(true);
+            $table->datetime('fecha_activo')->default(date('Y-m-d H:i:s'));
+            $table->boolean('pausado')->default(false);
+            $table->datetime('fecha_pausado')->nullable();
+            $table->integer('bajadas');
             $table->timestamps();
         });
     }
