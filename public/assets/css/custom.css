@@ -1,6 +1,13 @@
 body {
     font-family: "Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 }
+.img-circle{
+    border-radius: 50%!important;
+    position: relative;
+    width: 200px;
+    height: 200px;
+    overflow: hidden;
+}
 .home-anuncio:hover{
     cursor: pointer;
     opacity: 0.6;
@@ -90,8 +97,15 @@ footer {
     background-color: #cc0000;
 }
 
+.bg-consex-dark{
+    background-color: #cc000087;
+}
+
+.btn-consex-dark{
+    background-color: #cc000087;
+}
 .btn-consex:hover{
-    background-color: #a50404;
+    background-color: #cc000087;
 }
 
 .page-item.disabled .page-link {

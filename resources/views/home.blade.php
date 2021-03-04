@@ -24,19 +24,9 @@ Escorts en Concepción
         <a href="{{route('anuncios.show', ['anuncio' => $anuncio->id])}}" class="home-anuncio">
             <img src="{{isset($anuncio->fotos) && count($anuncio->fotos) > 0 ? asset('storage/'.$anuncio->fotos[0]->foto) : asset('assets/img/sin-foto-mujer.jpg')}}"
                 class="img-fluid" alt="Responsive image">
-            <div class="font-weight-bold" style="font-size: 15px; color: #cb4c5b;">{{$anuncio->nombre}}</div>
-            <div class="text-white" style="font-size: 15px;">{{$anuncio->ubicacion}}</div>
-            <p class="text-white" style="font-size: 12px;">
-                @if (isset($anuncio->etiquetas) && count($anuncio->etiquetas) > 0)
-                @foreach ($anuncio->etiquetas as $etiqueta)
-                @if($loop->last)
-                {{$etiqueta->etiqueta}}
-                @else
-                {{$etiqueta->etiqueta}},
-                @endif
-                @endforeach
-                @endif
-            </p>
+            <div class="font-weight-bold" style="font-size: 15px; color: #cb4c5b;">{{$anuncio->nombre ?? ''}}</div>
+            <div class="text-white" style="font-size: 15px;">{{$anuncio->ubicacion ?? ''}}</div>
+            <p class="text-white" style="font-size: 12px;">{{$anuncio->subtitulo ?? ''}}</p>
         </a>
     </div>
     @endforeach

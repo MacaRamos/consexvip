@@ -21,8 +21,8 @@ class CreateAnunciosTable extends Migration
             $table->string('subtitulo', 100)->nullable();
             $table->string('descripcion', 5000);
             $table->string('ubicacion', 250);
-            $table->string('telefono');
-            $table->string('whatsapp')->nullable();
+            $table->bigInteger('telefono');
+            $table->string('whatsapp', 250)->nullable();
             $table->integer('precio_hora')->nullable();
             $table->time('horario_inicio')->nullable();
             $table->time('horario_fin')->nullable();

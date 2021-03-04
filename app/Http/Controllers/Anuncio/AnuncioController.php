@@ -54,8 +54,8 @@ class AnuncioController extends Controller
         $anuncio->subtitulo = $request->subtitulo;
         $anuncio->descripcion = $request->descripcion;
         $anuncio->ubicacion = $request->ubicacion;
-        $anuncio->telefono = $request->telefono;
-        $anuncio->whatsapp = "https://wa.me/" . $request->whatsapp;
+        $anuncio->telefono = intval(str_replace('(+', '', str_replace(') ', '', $request->telefono)));
+        $anuncio->whatsapp = 'https://api.whatsapp.com/send/?phone='.str_replace('(', '', str_replace(') ', '', $request->whatsapp)).'&text=Hola '.$request->nombre.' ví tu aviso y me interesa saber más';
         $anuncio->precio_hora = (int)str_replace($request->precio_hora, '$ ', '');
         $anuncio->horario_inicio = $request->horario_inicio;
         $anuncio->horario_fin = $request->horario_fin;
@@ -117,7 +117,8 @@ class AnuncioController extends Controller
      */
     public function show($id)
     {
-        return view('anuncios.show');
+        $anuncio = Anuncio::where('id', $id)->with('fotos', 'servicios', 'etiquetas')->first();
+        return view('anuncios.show', compact('anuncio'));
     }
 
     /**
@@ -149,8 +150,8 @@ class AnuncioController extends Controller
         $anuncio->subtitulo = $request->subtitulo;
         $anuncio->descripcion = $request->descripcion;
         $anuncio->ubicacion = $request->ubicacion;
-        $anuncio->telefono = $request->telefono;
-        $anuncio->whatsapp = "https://wa.me/" . $request->whatsapp;
+        $anuncio->telefono = intval(str_replace('(+', '', str_replace(') ', '', $request->telefono)));
+        $anuncio->whatsapp = 'https://api.whatsapp.com/send/?phone='.str_replace('(', '', str_replace(') ', '', $request->whatsapp)).'&text=Hola '.$request->nombre.' ví tu aviso y me interesa saber más';
         $anuncio->precio_hora = (int)str_replace($request->precio_hora, '$ ', '');
         $anuncio->horario_inicio = $request->horario_inicio;
         $anuncio->horario_fin = $request->horario_fin;
@@ -248,6 +249,7 @@ class AnuncioController extends Controller
     public function destroy(Request $request, $id)
     {
         Foto::where('anuncio_id', $id)->delete();
+        Servicio::where('anuncio_id', $id)->delete();
         Etiqueta::where('anuncio_id', $id)->delete();
         $anuncio = Anuncio::find($id);
         if ($request->ajax()) {

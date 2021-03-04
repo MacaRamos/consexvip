@@ -18,8 +18,11 @@ Route::get('/', 'HomeController@index')->name('inicio');
 Auth::routes();
 
 Route::namespace('Anuncio')->middleware(['auth'])->group(function () {
-    Route::resource('/anuncios', 'AnuncioController', ['only' => ['index', 'create', 'show', 'edit', 'store', 'update', 'destroy']]);
+    Route::resource('/anuncios', 'AnuncioController', ['only' => ['index', 'create', 'edit', 'store', 'update', 'destroy']]);
     Route::post('subirFotos', 'AnuncioController@subirFotos')->name('subirFotos');
     Route::post('eliminarFoto/{anuncio?}', 'AnuncioController@eliminarFoto')->name('eliminarFoto');
     
+});
+Route::namespace('Anuncio')->group(function () {
+    Route::resource('/anuncios', 'AnuncioController', ['only' => ['show']]);
 });
