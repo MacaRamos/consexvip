@@ -46,7 +46,7 @@
         <div class="form-group">
             <label class="requerido font-weight-normal">Teléfono</label>
             <input type="text" class="form-control" name="telefono" id="telefono"
-                value="{{old('telefono', $anuncio->telefono ?? '')}}" maxlength="15" required>
+                value="{{old('telefono', isset($anuncio->telefono) ? str_replace('56', '', $anuncio->telefono) : '')}}" maxlength="15" required>
         </div>
     </div>
 </div>
@@ -55,7 +55,7 @@
         <div class="form-group">
             <label class="font-weight-normal">Whatsapp</label>
             <input type="text" class="form-control" name="whatsapp" id="whatsapp"
-                value="{{old('whatsapp', $anuncio->whatsapp ?? '')}}" maxlength="15">
+                value="{{old('whatsapp', isset($anuncio->whatsapp) ?  str_replace('56', '', $anuncio->whatsapp) : '')}}" maxlength="15">
         </div>
     </div>
 </div>
