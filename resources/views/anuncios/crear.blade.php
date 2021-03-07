@@ -11,8 +11,10 @@ Crear Anuncio
 <link rel="stylesheet" href="{{asset("assets/$theme/plugins/select2/css/select2.min.css")}}">
 <link rel="stylesheet" href="{{asset("assets/$theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet" />
-  <!-- dropzonejs -->
+<!-- dropzonejs -->
 <link rel="stylesheet" href="{{asset("assets/$theme/plugins/dropzone/min/dropzone.min.css")}}">
+<!-- bootstrap-toggle -->
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 @endsection
 
 @section("scripts")
@@ -22,6 +24,8 @@ Crear Anuncio
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <!-- dropzonejs -->
 <script src="{{asset("assets/$theme/plugins/dropzone/min/dropzone.min.js")}}"></script>
+<!-- bootstrap-toggle -->
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 @include('includes.mensaje')
 @include('includes.error-form')
 <script>

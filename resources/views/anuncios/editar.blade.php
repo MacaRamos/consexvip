@@ -11,8 +11,9 @@ Editar Anuncio
 <link rel="stylesheet" href="{{asset("assets/$theme/plugins/select2/css/select2.min.css")}}">
 <link rel="stylesheet" href="{{asset("assets/$theme/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css")}}">
 <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.css" rel="stylesheet" />
-  <!-- dropzonejs -->
+<!-- dropzonejs -->
 <link rel="stylesheet" href="{{asset("assets/$theme/plugins/dropzone/min/dropzone.min.css")}}">
+<!-- bootstrap-toggle -->
 <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 @endsection
 
@@ -23,6 +24,7 @@ Editar Anuncio
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"></script>
 <!-- dropzonejs -->
 <script src="{{asset("assets/$theme/plugins/dropzone/min/dropzone.min.js")}}"></script>
+<!-- bootstrap-toggle -->
 <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 @include('includes.mensaje')
 @include('includes.error-form')
@@ -155,6 +157,11 @@ Editar Anuncio
 
 
         // DropzoneJS Demo Code End
+
+        $('#actualizar').on('click', function(){
+            $('#tipo_id').attr('disabled', false);
+            $('#form-general').submit();
+        });
     });
 </script>
 @endsection
@@ -179,7 +186,8 @@ Editar Anuncio
         <!-- /.card-body -->
         <div class="card-footer">
             <div class="row float-right">
-                @include('includes.boton-form-editar')
+                <a href="{{URL::previous()}}" type="reset" class="btn btn-secondary mr-2">Cancelar</a>
+                <button type="button" class="btn btn-consex text-white" id="actualizar">Actualizar</button>
             </div>
         </div>
         <!-- /.card-footer -->

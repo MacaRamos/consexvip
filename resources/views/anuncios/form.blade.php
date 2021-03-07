@@ -89,7 +89,8 @@
     <div class="col-md-4">
         <div class="form-group">
             <label class="requerido font-weight-normal">Tipo anuncio</label>
-            <select class="form-control" name="tipo_id" id="tipo_id" required>
+            <select class="form-control" name="tipo_id" id="tipo_id" {{isset($anuncio) && $anuncio->activo ? 'disabled' : 'required'}}
+                {{isset($anuncio) && $anuncio->activo ? 'title="El aviso esta activo y vigente, no puede cambiar su tipo" data-toggle="tooltip" data-placement="top"' : ''}}>
                 <option value="">Seleccione...</option>
                 @foreach ($tipos as $tipo)
                 <option value="{{$tipo->id}}" {{isset($anuncio) && $anuncio->tipo_id == $tipo->id ? 'selected' : ''}}

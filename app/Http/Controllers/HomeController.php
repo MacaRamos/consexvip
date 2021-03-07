@@ -24,7 +24,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $anuncios = Anuncio::where('activo', 1)->with('tipo', 'fotos', 'etiquetas')->get();
+        $anuncios = Anuncio::where('activo', 1)
+            ->where('pausado', 0)
+            ->with('tipo', 'fotos', 'etiquetas')
+            ->get();
         return view('home', compact('anuncios'));
     }
 }

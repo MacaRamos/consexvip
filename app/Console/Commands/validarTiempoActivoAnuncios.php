@@ -42,10 +42,6 @@ class validarTiempoActivoAnuncios extends Command
         $desactivados = 0;
         foreach ($anuncios as $key => $anuncio) {
             $fechaActual = new \DateTime('now');
-            $fechaActivo = new \DateTime($anuncio->fecha_activo);
-
-            $tiempoActivo = $fechaActivo->diff($fechaActual);
-            // dd($tiempoActivo, $tiempoActivo->days);
             switch ($anuncio->tipo->nombre) {
                 case 'Semanal':
                     $tiempoPermitido = 7;
@@ -54,20 +50,28 @@ class validarTiempoActivoAnuncios extends Command
                     $tiempoPermitido = 15;
                     break;
                 case 'Mensual':
-                    $tiempoPermitido = date('m');              
+                    $tiempoPermitido = date('m');
                     break;
             }
-            if($tiempoActivo->days > $tiempoPermitido){
-                $anuncio->activo = false;
-                $anuncio->fecha_activo = null;
-                $anuncio->tiempo_activo = 0;
-                $anuncio->save();
-                $desactivados++;
-            }else{
-                $anuncio->tiempo_activo = $tiempoActivo->days;
-                $anuncio->save();
+            if ($anuncio->pausado) {
+                $fechaPausado = new \DateTime($anuncio->fecha_pausado);
+                $tiempoPausado = $fechaActual->diff($fechaPausado);
+                if ($tiempoPausado->days > $tiempoPermitido) {
+                    $desactivados++;
+                    $anuncio->activo = false;
+                    $anuncio->fecha_activo = null;
+                }    
+            } else {
+                $fechaActivo = new \DateTime($anuncio->fecha_activo);
+                $tiempoActivo = $fechaActual->diff($fechaActivo);
+                if ($tiempoActivo->days > $tiempoPermitido) {
+                    $desactivados++;
+                    $anuncio->activo = false;
+                    $anuncio->fecha_activo = null;
+                }                
             }
+            $anuncio->save();
         }
-        return 'Se han desactivos '.$desactivados.' anuncios';
+        return 'Se han desactivos ' . $desactivados . ' anuncios';
     }
 }

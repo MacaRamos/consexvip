@@ -23,7 +23,9 @@ class Anuncio extends Model
         'horario_fin',
         'activo',
         'fecha_activo',
-        'tiempo_activo'
+        'pausado',
+        'fecha_pausado',
+        'bajadas'
     ];
 
     public function fotos(){

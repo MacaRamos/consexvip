@@ -46,7 +46,8 @@ class AnuncioController extends Controller
      */
     public function store(ValidacionAnuncio $request)
     {
-        $activo = $request->activo == 'on' ? 1 : 0;
+        $pausado = $request->activo == 'on' ? 0 : 1; // Si el aviso esta activo, significa que no esta pausado, capish?
+        $tipo = Tipo::find($request->tipo_id);
         $anuncio = new Anuncio();
         $anuncio->usuario_id = Auth::user()->id;
         $anuncio->tipo_id = $request->tipo_id;
@@ -55,13 +56,49 @@ class AnuncioController extends Controller
         $anuncio->descripcion = $request->descripcion;
         $anuncio->ubicacion = $request->ubicacion;
         $anuncio->telefono = intval(str_replace('(+', '', str_replace(') ', '', $request->telefono)));
-        $anuncio->whatsapp = 'https://api.whatsapp.com/send/?phone='.str_replace('(', '', str_replace(') ', '', $request->whatsapp)).'&text=Hola '.$request->nombre.' ví tu aviso y me interesa saber más';
+        $anuncio->whatsapp = intval(str_replace('(+', '', str_replace(') ', '', $request->whatsapp)));
         $anuncio->precio_hora = (int)str_replace($request->precio_hora, '$ ', '');
         $anuncio->horario_inicio = $request->horario_inicio;
         $anuncio->horario_fin = $request->horario_fin;
-        $anuncio->activo = $activo;
-        $anuncio->fecha_activo = $activo ? date('Y-m-d H:i:s') : null;
-        $anuncio->tiempo_activo = 0;
+
+        switch ($tipo->nombre) {
+            case 'Semanal':
+                if ($pausado) {
+                    $anuncio->bajadas = 0;
+                    $anuncio->activo = false;
+                    $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                    $anuncio->fecha_activo = null;
+                } else {
+                    $anuncio->bajadas = 1;
+                    $anuncio->activo = true;
+                    $anuncio->fecha_activo = date('Y-m-d H:i:s');
+                    $anuncio->fecha_pausado = null;
+                }
+                break;
+            case 'Quincenal':
+                if ($pausado) {
+                    $anuncio->bajadas = 1;
+                    $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                } else {
+                    $anuncio->bajadas = 2;
+                    $anuncio->fecha_pausado = null;
+                }
+                $anuncio->activo = true;
+                $anuncio->fecha_activo = date('Y-m-d H:i:s');
+                break;
+            case 'Mensual':
+                if ($pausado) {
+                    $anuncio->bajadas = 2;
+                    $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                } else {
+                    $anuncio->bajadas = 3;
+                    $anuncio->fecha_pausado = null;
+                }
+                $anuncio->activo = true;
+                $anuncio->fecha_activo = date('Y-m-d H:i:s');
+                break;
+        }
+        $anuncio->pausado = $pausado;
         $anuncio->save();
 
         if (count((array) $request->fotos) > 0) {
@@ -143,24 +180,75 @@ class AnuncioController extends Controller
      */
     public function update(ValidacionAnuncio $request, $id)
     {
-        $activo = $request->activo == 'on' ? 1 : 0;
+        $pausado = $request->activo == 'on' ? 0 : 1; // Si el aviso esta activo, significa que no esta pausado, capish?
+
         $anuncio = Anuncio::find($id);
+        $tipo = isset($request->tipo_id) ? Tipo::find($request->tipo_id) : Tipo::find($anuncio->tipo_id);
+
         $anuncio->tipo_id = $request->tipo_id;
         $anuncio->nombre = $request->nombre;
         $anuncio->subtitulo = $request->subtitulo;
         $anuncio->descripcion = $request->descripcion;
         $anuncio->ubicacion = $request->ubicacion;
         $anuncio->telefono = intval(str_replace('(+', '', str_replace(') ', '', $request->telefono)));
-        $anuncio->whatsapp = 'https://api.whatsapp.com/send/?phone='.str_replace('(', '', str_replace(') ', '', $request->whatsapp)).'&text=Hola '.$request->nombre.' ví tu aviso y me interesa saber más';
+        $anuncio->whatsapp = intval(str_replace('(+', '', str_replace(') ', '', $request->whatsapp)));
         $anuncio->precio_hora = (int)str_replace($request->precio_hora, '$ ', '');
         $anuncio->horario_inicio = $request->horario_inicio;
         $anuncio->horario_fin = $request->horario_fin;
-        $anuncio->activo = $activo;
-        if(!$anuncio->activo && $activo){
-            $anuncio->fecha_activo = date('Y-m-d H:i:s');
-        }else if($anuncio->activo && !$activo){
-            $anuncio->fecha_activo = null;
+
+        if (!$anuncio->activo) {
+            switch ($tipo->nombre) {
+                case 'Semanal':
+                    if ($pausado) {
+                        $anuncio->bajadas = 0; // bajadas disponibles que le quedan
+                        $anuncio->activo = false;
+                        $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                        $anuncio->fecha_activo = null;
+                    } else {
+                        $anuncio->bajadas = 1;
+                        $anuncio->activo = true;
+                        $anuncio->fecha_activo = date('Y-m-d H:i:s');
+                        $anuncio->fecha_pausado = null;
+                    }
+                    break;
+                case 'Quincenal':
+                    if ($pausado) {
+                        $anuncio->bajadas = 1; // bajadas disponibles que le quedan
+                        $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                    } else {
+                        $anuncio->bajadas = 2;
+                        $anuncio->fecha_pausado = null;
+                    }
+                    $anuncio->activo = true;
+                    $anuncio->fecha_activo = date('Y-m-d H:i:s');
+                    break;
+                case 'Mensual':
+                    if ($pausado) {
+                        $anuncio->bajadas = 2; // bajadas disponibles que le quedan
+                        $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                    } else {
+                        $anuncio->bajadas = 3;
+                        $anuncio->fecha_pausado = null;
+                    }
+                    $anuncio->activo = true;
+                    $anuncio->fecha_activo = date('Y-m-d H:i:s');
+                    break;
+            }
+        } else {
+            if ($pausado) {
+                if ($anuncio->bajadas - 1 > 0) {
+                    $anuncio->bajadas = $anuncio->bajadas - 1;
+                    $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                } else {
+                    $anuncio->activo = false;
+                    $anuncio->fecha_activo = null;
+                    $anuncio->fecha_pausado = date('Y-m-d H:i:s');
+                }
+            } else {
+                $anuncio->fecha_pausado = null;
+            }
         }
+        $anuncio->pausado = $pausado;
         $anuncio->save();
 
         Foto::where('anuncio_id', $id)->delete();
@@ -239,7 +327,7 @@ class AnuncioController extends Controller
         }
         return response()->json('ok');
     }
-
+    
     /**
      * Remove the specified resource from storage.
      *

@@ -11,6 +11,11 @@
     text-transform: uppercase;
     font-weight: 600;
 }
+
+.form-control:disabled, .form-control[readonly] {
+    background-color: #5f6061;
+    opacity: 1;
+}
 body {
     font-family: "Montserrat",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol";
 }

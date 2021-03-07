@@ -22,12 +22,12 @@ class CreateAnunciosTable extends Migration
             $table->string('descripcion', 5000);
             $table->string('ubicacion', 250);
             $table->bigInteger('telefono');
-            $table->string('whatsapp', 250)->nullable();
+            $table->bigInteger('whatsapp')->nullable();
             $table->integer('precio_hora')->nullable();
             $table->time('horario_inicio')->nullable();
             $table->time('horario_fin')->nullable();
             $table->boolean('activo')->default(true);
-            $table->datetime('fecha_activo')->default(date('Y-m-d H:i:s'));
+            $table->datetime('fecha_activo')->default(date('Y-m-d H:i:s'))->nullable();
             $table->boolean('pausado')->default(false);
             $table->datetime('fecha_pausado')->nullable();
             $table->integer('bajadas');
